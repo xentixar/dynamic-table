@@ -15,22 +15,41 @@ class LiveSelectionMacro implements TableMacro
 
     public function register(): void
     {
-        if (Table::hasMacro('liveSelection')) {
+        $this->registerForTableClass(Table::class);
+        $this->registerForTableClass('Archilex\\AdvancedTables\\Filament\\Table');
+    }
+
+    protected function registerForTableClass(string $tableClass): void
+    {
+        if (! class_exists($tableClass)) {
+            return;
+        }
+
+        if (! method_exists($tableClass, 'hasMacro') || ! method_exists($tableClass, 'macro')) {
+            return;
+        }
+
+        if ($tableClass::hasMacro('liveSelection')) {
             return;
         }
 
         $watchScriptBuilder = $this->watchScriptBuilder;
 
-        Table::macro('liveSelection', function (bool $condition = true, string $livewireProperty = 'selectedTableRecords', ?string $livewireMethod = null) use ($watchScriptBuilder): Table {
-            /** @var Table $this */
+        $tableClass::macro('liveSelection', function (bool $condition = true, string $livewireProperty = 'selectedTableRecords', ?string $livewireMethod = null) use ($watchScriptBuilder) {
+            $setSelectionProperty = 'currentSelectionLivewireProperty';
+
+            if (! method_exists($this, $setSelectionProperty)) {
+                return $this;
+            }
+
             if (! $condition) {
-                return $this->currentSelectionLivewireProperty(null);
+                return $this->{$setSelectionProperty}(null);
             }
 
             $watchScript = $watchScriptBuilder->build($livewireMethod);
 
             return $this
-                ->currentSelectionLivewireProperty($livewireProperty)
+                ->{$setSelectionProperty}($livewireProperty)
                 ->extraAttributes([
                     'x-init' => $watchScript,
                 ], merge: true);
