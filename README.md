@@ -6,6 +6,7 @@
 
 - Adds `Table::liveSelection()` macro for reactive selection syncing.
 - Supports optional Livewire callback method execution on selection changes.
+- Registers on both Filament Tables and Archilex Advanced Tables (if installed).
 
 ## Requirements
 
