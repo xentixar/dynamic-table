@@ -11,7 +11,7 @@
 
 - PHP 8.2+
 - Filament Tables `^4.0 || ^5.0`
-- Illuminate Support `^12.0 || ^13.0`
+- Illuminate Support `^11.0 || ^12.0 || ^13.0`
 
 ## Installation
 
