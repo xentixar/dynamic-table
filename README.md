@@ -10,8 +10,8 @@
 ## Requirements
 
 - PHP 8.2+
-- Filament Tables `^5.0`
-- Illuminate Support `^13.0`
+- Filament Tables `^4.0 || ^5.0`
+- Illuminate Support `^12.0 || ^13.0`
 
 ## Installation
 
